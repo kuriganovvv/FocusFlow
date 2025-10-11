@@ -30,8 +30,8 @@
   - История выполнения задач и рекомендации по планированию.
 
 - **Технический функционал:**
-  - Язык программирования: Java 17+
-  -Система сборки: Gradle
+  - Язык программирования: Java 21.
+  - Система сборки: Gradle.
   - Сохранение данных локально (JSON или SQLite).
   - GUI на JavaFX или Swing.
   - Объектно-ориентированная структура (классы `Student`, `Subject`, `Task`, `PomodoroTimer`, `Planner`).
@@ -43,7 +43,7 @@
 ## Установка
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/cheater228300/FocusFlow
+   git clone https://github.com/kuriganovvv/FocusFlow
 
 ## Прогресс выполнения
 ![Progress](https://progress-bar.xyz/0/?title=Выполнено&width=400)
