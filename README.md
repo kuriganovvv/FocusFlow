@@ -46,4 +46,5 @@
    git clone https://github.com/kuriganovvv/FocusFlow
 
 ## Прогресс выполнения
-![Progress](https://progress-bar.xyz/0/?title=Выполнено&width=400)
+![Progress](https://progress-bar.xyz/20/?title=Выполнено&width=400)
+
