@@ -3,21 +3,20 @@ import java.time.LocalDate;
 
 public class TaskItem {
     private String title;
-
+    private LocalDate deadline;
     private LocalDate date;
 
-    public TaskItem(String title, LocalDate date) {
+    public TaskItem(String title, LocalDate date, LocalDate deadline) {
         this.title = title;
         this.date = date;
-    }
+        this.deadline = deadline;
+    } 
 
-    public String getTitle() {return title;}
+    public String getTitle() {return title;}//геттеры
     public LocalDate getDate() {return date;}
-    /* название 
-     * дата (дедлайн)
-     * дней до дедлайна
-     * описание 
-     * 
-     * методы для работы с классом
-    */
+    public LocalDate getDeadline() {return deadline;} 
+
+    public void setDeadline(LocalDate deadline) {this.deadline = deadline;}//сеттеры
+    public void setDate(LocalDate date) {this.date = date;} 
+    public void setTitle(String title) {this.title = title;}
 }
