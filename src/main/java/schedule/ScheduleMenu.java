@@ -13,7 +13,7 @@ public class ScheduleMenu{
         this.scanner=scanner;
     }
 
-    public void showMenu(){
+    public void menu(){
         while(true){
             System.out.println("\n=== РАСПИСАНИЕ ===");
             System.out.println("1. Добавить пару");

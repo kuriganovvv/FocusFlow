@@ -4,12 +4,24 @@ import java.util.Scanner;
 
 import schedule.ScheduleMenu;
 import schedule.ScheduleService;
+import tasks.TaskService;
+import tasks.TaskMenu;
+import pomodoro.PomodoroService;
+import pomodoro.PomodoroMenu;
 
 public class Main{
     public static void main(String[] args){
         Scanner scanner=new Scanner(System.in);
-        ScheduleService scheduleService=new ScheduleService();
 
+        ScheduleService scheduleService=new ScheduleService();
+        ScheduleMenu scheduleMenu=new ScheduleMenu(scheduleService,scanner);
+
+        TaskService taskService = new TaskService();
+        TaskMenu taskMenu =new TaskMenu(taskService, scanner);
+
+        PomodoroService pomodoroService = new PomodoroService();
+        PomodoroMenu pomodoroMenu = new PomodoroMenu(pomodoroService, taskService, scanner);
+        
         while(true){
             System.out.println("\n=== Главное меню ===");
             System.out.println("1. Расписание");
@@ -20,15 +32,9 @@ public class Main{
             String choice=scanner.nextLine().trim();
 
             switch(choice){
-                case "1" -> { 
-                    ScheduleMenu scheduleMenu=new ScheduleMenu(scheduleService,scanner);
-                    scheduleMenu.showMenu();
-                }
-                    
-                case "2" -> System.out.println("Модуль задач в разработке...");
-                    
-                case "3" -> System.out.println("Pomodoro таймер в разработке...");
-                    
+                case "1" -> scheduleMenu.menu();
+                case "2" -> taskMenu.menu();
+                case "3" -> pomodoroMenu.menu();
                 case "0" -> {
                     System.out.println("Выход...");
                     scanner.close();
