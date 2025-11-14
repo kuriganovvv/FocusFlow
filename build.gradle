@@ -3,26 +3,30 @@ plugins {
     id 'application'
 }
 
-application {
-    mainClass = 'Main'  // ← Просто Main, без пакета!
-}
+group = 'com.focusflow'
+version = '1.0'
 
-group = 'com.yourname'
-version = '1.0.0'
+sourceCompatibility = '21'
+targetCompatibility = '21'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
-test {
-    useJUnitPlatform()
+application {
+    mainClass = 'app.Main'
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+tasks.withType(JavaExec) {
+    standardInput = System.in
 }
+gradle.projectsLoaded {
+    println "🧹 Остановка старых Gradle Daemon'ов..."
+    def result = ["gradle", "--stop"].execute()
+    println "✅ Старые Daemon'ы остановлены."
+}
+
