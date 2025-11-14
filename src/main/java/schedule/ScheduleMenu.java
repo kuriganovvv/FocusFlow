@@ -25,18 +25,13 @@ public class ScheduleMenu{
             String choice=scanner.nextLine();
             
             switch(choice){
-                case "1":
-                    addPair();
-                    break;
-                case "2":
-                    removePair();
-                    break;
-                case "3":
-                    showSchedule();
-                    break;
-                case "0":
+                case "1" -> addPair();
+                case "2" -> removePair();
+                case "3" -> showSchedule();
+                case "0" -> {
                     return;
-                default:System.out.println("Неверный выбор!");
+                }
+                default -> System.out.println("Неверный выбор!");
             }
         }
     }

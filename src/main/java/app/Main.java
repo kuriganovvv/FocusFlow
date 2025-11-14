@@ -20,27 +20,22 @@ public class Main{
             String choice=scanner.nextLine().trim();
 
             switch(choice){
-                case "1": 
+                case "1" -> { 
                     ScheduleMenu scheduleMenu=new ScheduleMenu(scheduleService,scanner);
                     scheduleMenu.showMenu();
-                    break;
+                }
                     
-                case "2": 
-                    System.out.println("Модуль задач в разработке...");
-                    break;
+                case "2" -> System.out.println("Модуль задач в разработке...");
                     
-                case "3": 
-                    System.out.println("Pomodoro таймер в разработке...");
-                    break;
+                case "3" -> System.out.println("Pomodoro таймер в разработке...");
                     
-                case "0":{
+                case "0" -> {
                     System.out.println("Выход...");
                     scanner.close();
                     return;
                 }
                 
-                default: 
-                    System.out.println("Неверный выбор, попробуйте снова.");
+                default -> System.out.println("Неверный выбор, попробуйте снова.");
             }
         }
     }
