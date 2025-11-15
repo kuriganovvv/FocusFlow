@@ -34,16 +34,19 @@
   - Объектно-ориентированная структура (классы `Student`, `Subject`, `Task`, `PomodoroTimer`, `Planner`).
   - Возможность расширения функционала (интеграция с календарём, импорт/экспорт данных).
 
-## Установка
-1. Клонируйте репозиторий:
+## Установка и запуск.
+Клонируйте репозиторий:
    ```bash
    git clone https://github.com/kuriganovvv/FocusFlow
    ./gradlew run --console=plain
    ```
+Если вы разработчик, у нас есть [wiki](https://github.com/kuriganovvv/FocusFlow/wiki).
+
 ## Прогресс выполнения
 ![Progress](https://progress-bar.xyz/40/?title=Выполнено&width=400)
 
 ![Java](https://img.shields.io/badge/Java-21+-orange)![Gradle](https://img.shields.io/badge/Gradle-8.4-green)
+
 
 
 
