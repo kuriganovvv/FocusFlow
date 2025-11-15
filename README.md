@@ -49,5 +49,6 @@
 
 ## Прогресс выполнения
 ![Progress](https://progress-bar.xyz/40/?title=Выполнено&width=400)
+![Java](https://img.shields.io/badge/Java-21+-orange)![Gradle](https://img.shields.io/badge/Gradle-8.4-green)
 
 
