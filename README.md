@@ -44,7 +44,10 @@
 1. Клонируйте репозиторий:
    ```bash
    git clone https://github.com/kuriganovvv/FocusFlow
+   gradle build 
+   gradle run --comsole=plain
 
 ## Прогресс выполнения
-![Progress](https://progress-bar.xyz/20/?title=Выполнено&width=400)
+![Progress](https://progress-bar.xyz/40/?title=Выполнено&width=400)
+
 
