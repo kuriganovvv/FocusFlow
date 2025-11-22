@@ -2,6 +2,7 @@ package tasks;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class TaskMenu{
@@ -68,11 +69,11 @@ public class TaskMenu{
             }
             boolean killedTasks = false;
 
-            System.out.print("Введите приоритет задачи(низкий, средний, высокий): ");
-            String priority = scanner.nextLine();
+            System.out.print("Введите приоритет задачи(низкий - 1, средний - 2, высокий - 3): ");
+            int priority = scanner.nextInt();
             System.out.println(priority);
-            if (!priority.equals("низкий") || !priority.equals("средний") || !priority.equals("высокий") || priority.isEmpty()){ //доработать проверку
-                System.out.println("Приоритет должен быть по шаблону!(низкий, средний, высокий)");
+            if (priority!=1 & priority!=2 & priority!=3){ 
+                System.out.println("Приоритет должен быть по шаблону!(низкий - 1, средний - 2, высокий - 3)");
                 return;
             }
 
@@ -82,7 +83,8 @@ public class TaskMenu{
             
             LocalDate date= LocalDate.now();
             
-            String id = "s"; //реализовать id
+            Random random = new Random();
+            long id = Math.abs(random.nextLong()); 
 
             taskService.addTask(new Task(title, date, id, descr, killedTasks, priority));
             System.out.println("Задача добавлена.");
