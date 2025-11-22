@@ -55,22 +55,23 @@ public class TaskMenu{
 
     private void addTask(){
         try{
-            System.out.print("Введите название задачи: ");
+            System.out.println("Введите название задачи: ");
             String title= scanner.nextLine().trim();
             if(title.isEmpty()){
                 System.out.println("Название не может быть пустым!");
                 return;
             }
-            System.out.print("Введите описание задачи: ");
+            System.out.println("Введите описание задачи: ");
             String descr = scanner.nextLine().trim();
             if(title.isEmpty()){
                 descr = "Без описания";
             }
-            boolean killedtasks = false;
+            boolean killedTasks = false;
 
             System.out.print("Введите приоритет задачи(низкий, средний, высокий): ");
-            String priority = scanner.nextLine().trim();
-            if (priority != "низкий" || priority != "средний" || priority != "высокий" || priority.isEmpty()){
+            String priority = scanner.nextLine();
+            System.out.println(priority);
+            if (!priority.equals("низкий") || !priority.equals("средний") || !priority.equals("высокий") || priority.isEmpty()){ //доработать проверку
                 System.out.println("Приоритет должен быть по шаблону!(низкий, средний, высокий)");
                 return;
             }
@@ -83,7 +84,7 @@ public class TaskMenu{
             
             String id = "s"; //реализовать id
 
-            taskService.addTask(new Task(title, date, id, descr, killedtasks, priority));
+            taskService.addTask(new Task(title, date, id, descr, killedTasks, priority));
             System.out.println("Задача добавлена.");
         }catch (Exception e){
             System.out.println("Ошибка ввода! Проверьте формат даты.");

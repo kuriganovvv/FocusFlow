@@ -7,15 +7,15 @@ public class Task{
     private LocalDate date;
     private final String id;
     private final String descr;
-    private boolean killedtask;
+    private boolean killedTask;
     private final String priority;
 
-    public Task(String title, LocalDate date, String id, String descr, boolean killedtask, String priority){
+    public Task(String title, LocalDate date, String id, String descr, boolean killedTask, String priority){
         this.title = title;
         this.date = date;
         this.id = id;
         this.descr = descr;
-        this.killedtask = killedtask;
+        this.killedTask = killedTask;
         this.priority = priority;
     }
     
@@ -24,7 +24,7 @@ public class Task{
     
     @Override
     public String toString() {
-        return title + " [" + date + "]" + id + descr + killedtask + priority;
+        return title + " [" + date + "]" + id + descr + killedTask + priority;
     }
 
 }
