@@ -3,12 +3,20 @@ package tasks;
 import java.time.LocalDate;
 
 public class Task{
-    private String title;
+    private final String title;
     private LocalDate date;
+    private final String id;
+    private final String descr;
+    private boolean killedtask;
+    private final String priority;
 
-    public Task(String title,LocalDate date){
+    public Task(String title, LocalDate date, String id, String descr, boolean killedtask, String priority){
         this.title = title;
         this.date = date;
+        this.id = id;
+        this.descr = descr;
+        this.killedtask = killedtask;
+        this.priority = priority;
     }
     
     public String getTitle(){return title;}
@@ -16,7 +24,7 @@ public class Task{
     
     @Override
     public String toString() {
-        return title + " [" + date + "]";
+        return title + " [" + date + "]" + id + descr + killedtask + priority;
     }
 
 }

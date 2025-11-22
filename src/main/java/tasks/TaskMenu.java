@@ -19,6 +19,7 @@ public class TaskMenu{
             System.out.println("1. Просмотреть задачи");
             System.out.println("2. Добавить задачу");
             System.out.println("3. Удалить задачу");
+            System.out.println("4. Изменить статус задачи");
             System.out.println("0. Назад");
             System.out.print("Выбор: ");
             String choice= scanner.nextLine().trim();
@@ -27,12 +28,17 @@ public class TaskMenu{
                 case "1" -> viewTasks();
                 case "2" -> addTask();
                 case "3" ->removeTask();
+                case "4" ->changeStatus();
                 case "0"->{
                     return;
                 }
                 default ->System.out.println("Неверный выбор");
             }
         }
+    }
+
+    private void changeStatus(){
+        //реализовать функцию
     }
 
     private void viewTasks(){
@@ -55,11 +61,29 @@ public class TaskMenu{
                 System.out.println("Название не может быть пустым!");
                 return;
             }
+            System.out.print("Введите описание задачи: ");
+            String descr = scanner.nextLine().trim();
+            if(title.isEmpty()){
+                descr = "Без описания";
+            }
+            boolean killedtasks = false;
+
+            System.out.print("Введите приоритет задачи(низкий, средний, высокий): ");
+            String priority = scanner.nextLine().trim();
+            if (priority != "низкий" || priority != "средний" || priority != "высокий" || priority.isEmpty()){
+                System.out.println("Приоритет должен быть по шаблону!(низкий, средний, высокий)");
+                return;
+            }
+
+
+            //System.out.print("Введите дату (ГГГГ-ММ-ДД): ");
+            //LocalDate date = LocalDate.parse(scanner.nextLine().trim())
             
-            System.out.print("Введите дату (ГГГГ-ММ-ДД): ");
-            LocalDate date= LocalDate.parse(scanner.nextLine().trim());
+            LocalDate date= LocalDate.now();
             
-            taskService.addTask(new Task(title,date));
+            String id = "s"; //реализовать id
+
+            taskService.addTask(new Task(title, date, id, descr, killedtasks, priority));
             System.out.println("Задача добавлена.");
         }catch (Exception e){
             System.out.println("Ошибка ввода! Проверьте формат даты.");
