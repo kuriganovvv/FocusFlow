@@ -1,8 +1,11 @@
 package tasks;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 public class TaskMenu{
@@ -56,40 +59,58 @@ public class TaskMenu{
 
     private void addTask(){
         try{
-            System.out.println("Введите название задачи: ");
-            String title= scanner.nextLine().trim();
-            if(title.isEmpty()){
-                System.out.println("Название не может быть пустым!");
-                return;
+            boolean res = false;
+            String title = "";
+            long id = Calendar.getInstance().getTimeInMillis(); 
+            int priority = 0;
+            boolean killedTasks = false;
+            LocalDate date = null;
+            
+
+            while(res != true){
+                System.out.print("Введите название задачи: ");
+                title= scanner.nextLine().trim();
+                if(title.isEmpty()){
+                    System.out.println("Название не может быть пустым!");
+                }else{
+                    res = true;
+                }
             }
-            System.out.println("Введите описание задачи: ");
+
+            System.out.print("Введите описание задачи: ");
             String descr = scanner.nextLine().trim();
-            if(title.isEmpty()){
+            if(descr.isEmpty()){
                 descr = "Без описания";
             }
-            boolean killedTasks = false;
-
-            System.out.print("Введите приоритет задачи(низкий - 1, средний - 2, высокий - 3): ");
-            int priority = scanner.nextInt();
-            System.out.println(priority);
-            if (priority!=1 & priority!=2 & priority!=3){ 
-                System.out.println("Приоритет должен быть по шаблону!(низкий - 1, средний - 2, высокий - 3)");
-                return;
+            res = false;
+            while(res != true){
+                System.out.print("Введите приоритет задачи(низкий - 1, средний - 2, высокий - 3): ");
+                priority = scanner.nextInt();
+                if ((priority!=1 && priority!=2 && priority!=3)){
+                    System.out.println("Приоритет должен быть по шаблону!(низкий - 1, средний - 2, высокий - 3)");
+                }else{
+                    res = true;
+                }
             }
-
-
-            //System.out.print("Введите дату (ГГГГ-ММ-ДД): ");
-            //LocalDate date = LocalDate.parse(scanner.nextLine().trim())
-            
-            LocalDate date= LocalDate.now();
-            
-            Random random = new Random();
-            long id = Math.abs(random.nextLong()); 
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            res = false;
+            while(res != true){
+                LocalDate t;
+                System.out.print("Введите дату (ГГГГ-ММ-ДД): ");
+                String input = reader.readLine().trim();
+                t = LocalDate.parse(input);
+                if(t.isBefore(LocalDate.now())){
+                    System.out.println("Введите будующую дату!");
+                }else{
+                    res = true;
+                    date = t;
+                }
+            }
 
             taskService.addTask(new Task(title, date, id, descr, killedTasks, priority));
             System.out.println("Задача добавлена.");
-        }catch (Exception e){
-            System.out.println("Ошибка ввода! Проверьте формат даты.");
+        }catch(IOException e){
+            System.out.println("Ошибка ввода");
         }
     }
 
