@@ -84,6 +84,10 @@ public class ScheduleMenu{
                 System.out.println((i+1)+". "+DAYS[i]);
             }
             int dayIndex=Integer.parseInt(scanner.nextLine())-1;
+            while(dayIndex >= DAYS.length || dayIndex < 0){
+                System.out.println("Ошибка ввода, повторите: ");
+                dayIndex = Integer.parseInt(scanner.nextLine())-1;
+            }
             String day=DAYS[dayIndex];
             
             var daySchedule=service.getSchedule().get(day);
@@ -100,6 +104,10 @@ public class ScheduleMenu{
             
             System.out.print("Какую пару удалить? (номер): ");
             int pairIndex=Integer.parseInt(scanner.nextLine())-1;
+            while(pairIndex >= TIMES.length || pairIndex < 0){
+                System.out.println("Ошибка ввода, повторите: ");
+                pairIndex = Integer.parseInt(scanner.nextLine())-1;
+            }
             
             service.remove(day,pairIndex);
             System.out.println("Пара удалена!");

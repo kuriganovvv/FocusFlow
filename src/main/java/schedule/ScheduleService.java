@@ -19,13 +19,14 @@ public class ScheduleService{
         List<ScheduleItem>daySchedule=schedule.get(day);
         if(daySchedule!=null){
             daySchedule.add(new ScheduleItem(subject,time));
+            daySchedule.sort(time);
         }
     }
 
     public void remove(String day,int index){
         List<ScheduleItem>daySchedule=schedule.get(day);
         if(daySchedule!=null&&index<daySchedule.size()){
-            daySchedule.remove(index);
+                daySchedule.remove(index);
         }
     }
 
