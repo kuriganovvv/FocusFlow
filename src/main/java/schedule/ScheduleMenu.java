@@ -37,21 +37,36 @@ public class ScheduleMenu{
     }
 
     private void addPair(){
+        
         try{
             System.out.println("Выберите день:");
             for(int i=0;i<DAYS.length;i++){
                 System.out.println((i+1)+". "+DAYS[i]);
             }
-            int dayIndex=Integer.parseInt(scanner.nextLine())-1;
-            
+    
+            int dayIndex = Integer.parseInt(scanner.nextLine())-1;
+            while(dayIndex >= DAYS.length || dayIndex < 0){
+                System.out.println("Ошибка ввода, повторите: ");
+                dayIndex = Integer.parseInt(scanner.nextLine())-1;
+            }
+
             System.out.println("Выберите время:");
             for(int i=0;i<TIMES.length;i++){
                 System.out.println((i+1)+". "+TIMES[i]);
             }
-            int timeIndex=Integer.parseInt(scanner.nextLine())-1;
             
+            int timeIndex=Integer.parseInt(scanner.nextLine())-1;
+            while(timeIndex >= TIMES.length || timeIndex < 0){
+                System.out.println("Ошибка ввода, повторите: ");
+                timeIndex = Integer.parseInt(scanner.nextLine())-1;
+            }
+
             System.out.print("Введите предмет: ");
             String subject=scanner.nextLine().trim();
+            while(subject.length() > 15){
+                System.out.println("Слишком длинное название!");
+                subject = scanner.nextLine().trim();
+            }
             
             String day=DAYS[dayIndex];
             String time=TIMES[timeIndex];
