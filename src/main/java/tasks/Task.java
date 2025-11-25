@@ -4,11 +4,11 @@ import java.time.LocalDate;
 
 public class Task{
     private final String title;
-    private LocalDate date;
+    private final LocalDate date;
     private final long id;
     private final String descr;
-    private boolean killedTask;
-    private int priority;
+    private final boolean killedTask;
+    private final int priority;
 
     public Task(String title, LocalDate date, long id, String descr, boolean killedTask, int priority){
         this.title = title;

@@ -68,7 +68,7 @@ public class TaskMenu{
             
 
             while(res != true){
-                System.out.print("Введите название задачи: ");
+                System.out.println("Введите название задачи: ");
                 title= scanner.nextLine().trim();
                 if(title.isEmpty()){
                     System.out.println("Название не может быть пустым!");
@@ -77,14 +77,14 @@ public class TaskMenu{
                 }
             }
 
-            System.out.print("Введите описание задачи: ");
+            System.out.println("Введите описание задачи: ");
             String descr = scanner.nextLine().trim();
             if(descr.isEmpty()){
                 descr = "Без описания";
             }
             res = false;
             while(res != true){
-                System.out.print("Введите приоритет задачи(низкий - 1, средний - 2, высокий - 3): ");
+                System.out.println("Введите приоритет задачи(низкий - 1, средний - 2, высокий - 3): ");
                 priority = scanner.nextInt();
                 if ((priority!=1 && priority!=2 && priority!=3)){
                     System.out.println("Приоритет должен быть по шаблону!(низкий - 1, средний - 2, высокий - 3)");
@@ -94,19 +94,33 @@ public class TaskMenu{
             }
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             res = false;
+            
+            
             while(res != true){
-                LocalDate t;
-                System.out.print("Введите дату (ГГГГ-ММ-ДД): ");
-                String input = reader.readLine().trim();
-                t = LocalDate.parse(input);
-                if(t.isBefore(LocalDate.now())){
-                    System.out.println("Введите будующую дату!");
-                }else{
-                    res = true;
-                    date = t;
+                try {
+                    LocalDate t;
+                    System.out.print("Введите дату (ГГГГ-ММ-ДД): ");
+                    String input = reader.readLine().trim();
+                    if (!input.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                        System.out.println("❌ Неверный формат! Должно быть: ГГГГ-ММ-ДД");
+                        System.out.println("   Пример: 2025-12-25");
+                        continue;
+                    }
+                    t = LocalDate.parse(input);
+                    if(t.isBefore(LocalDate.now())) {
+                        System.out.println("Введите будующую дату!");
+                    }else{
+                        res = true;
+                        date = t;
+                    }
+                }catch (java.time.format.DateTimeParseException e){
+                    System.out.println("❌ Неверный формат даты! Используйте ГГГГ-ММ-ДД");
+                }catch (java.time.DateTimeException e){
+                    System.out.println("❌ Несуществующая дата! Проверьте день и месяц");
                 }
-            }
-
+            } 
+                
+            scanner.nextLine();
             taskService.addTask(new Task(title, date, id, descr, killedTasks, priority));
             System.out.println("Задача добавлена.");
         }catch(IOException e){
