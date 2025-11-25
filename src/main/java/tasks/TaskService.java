@@ -7,6 +7,10 @@ import java.util.List;
 public class TaskService{
     private List<Task> tasks;
 
+    public void changeStatus(){
+        
+    }
+
     public TaskService(){
         tasks=new ArrayList<>();
     }
