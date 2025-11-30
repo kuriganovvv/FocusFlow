@@ -1,8 +1,10 @@
-package tasks;
+package service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import model.Task;
 
 public class TaskService{
     private List<Task> tasks;

@@ -1,10 +1,10 @@
-package schedule;
+package model;
 
-public class ScheduleItem{
+public class Schedule{
     private final String subject;
     private final String time;
 
-    public ScheduleItem(String subject, String time){
+    public Schedule(String subject, String time){
         this.subject = subject;
         this.time = time;
     }

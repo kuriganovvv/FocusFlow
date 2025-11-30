@@ -1,6 +1,8 @@
-package schedule;
+package controller;
 
 import java.util.Scanner;
+
+import service.ScheduleService;
 
 public class ScheduleMenu{
     private ScheduleService service;

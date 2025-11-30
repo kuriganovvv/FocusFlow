@@ -1,12 +1,14 @@
-package schedule;
+package service;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.Schedule;
+
 public class ScheduleService{
-    private final Map<String, List<ScheduleItem>>schedule=new LinkedHashMap<>();
+    private final Map<String, List<Schedule>>schedule=new LinkedHashMap<>();
 
     public ScheduleService(){
         String[]days={"Пн","Вт","Ср","Чт","Пт","Сб"};
@@ -16,20 +18,20 @@ public class ScheduleService{
     }
 
     public void add(String day,String time,String subject) {
-        List<ScheduleItem>daySchedule=schedule.get(day);
+        List<Schedule>daySchedule=schedule.get(day);
         if(daySchedule!=null){
-            daySchedule.add(new ScheduleItem(subject,time));
+            daySchedule.add(new Schedule(subject,time));
         }
     }
 
     public void remove(String day,int index){
-        List<ScheduleItem>daySchedule=schedule.get(day);
+        List<Schedule>daySchedule=schedule.get(day);
         if(daySchedule!=null&&index<daySchedule.size()){
             daySchedule.remove(index);
         }
     }
 
-    public Map<String,List<ScheduleItem>>getSchedule(){
+    public Map<String,List<Schedule>>getSchedule(){
         return schedule;
     }
 }

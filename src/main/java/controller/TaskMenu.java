@@ -1,4 +1,4 @@
-package tasks;
+package controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,6 +7,9 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
+
+import model.Task;
+import service.TaskService;
 
 public class TaskMenu{
     private final TaskService taskService;

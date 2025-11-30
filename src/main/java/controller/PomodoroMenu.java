@@ -1,9 +1,11 @@
-package pomodoro;
+package controller;
 
 import java.util.List;
 import java.util.Scanner;
-import tasks.Task;
-import tasks.TaskService;
+
+import model.Task;
+import service.PomodoroService;
+import service.TaskService;
 
 public class PomodoroMenu {
     private final PomodoroService pomodoroService;

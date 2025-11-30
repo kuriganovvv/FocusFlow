@@ -1,17 +1,19 @@
-package pomodoro;
+package service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Pomodoro;
+
 public class PomodoroService{
-    private List<PomodoroItem> sessions;
+    private List<Pomodoro> sessions;
 
     public PomodoroService(){
         sessions= new ArrayList<>();
     }
 
     public void saveSession(String taskName,int minutes,boolean completed){
-        sessions.add(new PomodoroItem(taskName,minutes,completed));
+        sessions.add(new Pomodoro(taskName,minutes,completed));
     }
 
     public void viewHistory(){

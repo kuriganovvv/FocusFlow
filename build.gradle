@@ -18,7 +18,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'app.Main'
+    mainClass = 'Main'
 }
 
 tasks.withType(JavaExec) {
