@@ -102,7 +102,10 @@ public class ScheduleMenu{
             
             System.out.print("Какую пару удалить? (номер): ");
             int pairIndex=Integer.parseInt(scanner.nextLine())-1;
-            
+            if (pairIndex<0||pairIndex>=daySchedule.size()){
+                System.out.println("Такой пары не существует!");
+                return;
+            }
             service.remove(day,pairIndex);
             System.out.println("Пара удалена!");
         }catch(Exception e){

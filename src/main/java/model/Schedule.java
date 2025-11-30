@@ -11,4 +11,9 @@ public class Schedule{
 
     public String getSubject(){return subject;}
     public String getTime(){return time;}
+    
+    @Override
+    public int compareTo(Schedule other){
+        return this.time.compareTo(other.time);
+    }
 }
