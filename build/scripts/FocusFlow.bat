@@ -74,7 +74,7 @@ set CLASSPATH=%APP_HOME%\lib\FocusFlow-1.0.jar;%APP_HOME%\lib\gson-2.10.1.jar
 
 
 @rem Execute FocusFlow
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %FOCUS_FLOW_OPTS%  -classpath "%CLASSPATH%" app.Main %*
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %FOCUS_FLOW_OPTS%  -classpath "%CLASSPATH%" Main %*
 
 :end
 @rem End local scope for the variables with windows NT shell

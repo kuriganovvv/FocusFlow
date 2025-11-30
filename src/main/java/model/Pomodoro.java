@@ -1,11 +1,11 @@
-package pomodoro;
+package model;
 
-public class PomodoroItem{
+public class Pomodoro{
     private String taskName;
     private int minutes;
     private boolean completed;
 
-    public PomodoroItem(String taskName, int minutes, boolean completed){
+    public Pomodoro(String taskName, int minutes, boolean completed){
         this.taskName= taskName;
         this.minutes=minutes;
         this.completed=completed;
