@@ -2,29 +2,23 @@ package service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import model.Task;
 
 public class TaskService{
-    private List<Task> tasks;
-
-    public void changeStatus(){
-        
-    }
+    private final List<Task> tasks;
 
     public TaskService(){
         tasks=new ArrayList<>();
     }
-
     public void addTask(Task task){
         tasks.add(task);
+        tasks.sort(Comparator.comparingLong(Task::getDaysUntilDeadline));
     }
-    
     public void removeTask(int index){
-        if (index>=0 &&index<tasks.size()){
-            tasks.remove(index);
-        }
+        if (index>=0 &&index<tasks.size()) tasks.remove(index);
     }
 
     public List<Task> getTasks(){
