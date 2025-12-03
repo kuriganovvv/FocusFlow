@@ -39,7 +39,7 @@ public class ScheduleMenu{
     }
 
     private void addPair(){
-        
+        var schedule=service.getSchedule();
         try{
             System.out.println("Выберите день:");
             for(int i=0;i<DAYS.length;i++){
@@ -72,6 +72,13 @@ public class ScheduleMenu{
             
             String day=DAYS[dayIndex];
             String time=TIMES[timeIndex];
+            var daySchedule=schedule.get(day);
+            for(var item:daySchedule){
+                if(item.getTime().equals(time)){
+                    System.out.println("Место занято");
+                    return;
+                }
+             }
             service.add(day,time,subject);
             System.out.println("Пара добавлена!");
         }catch(Exception e){
