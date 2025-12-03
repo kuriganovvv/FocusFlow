@@ -1,10 +1,7 @@
 package controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.LocalDate;
-import java.util.Calendar;
+import java.util.UUID;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,93 +41,74 @@ public class TaskMenu{
         }
     }
 
-    private void changeStatus(){
-        //реализовать функцию
-    }
-
     private void viewTasks(){
         List<Task> tasks= taskService.getTasks();
         if(tasks.isEmpty()){
             System.out.println("Задач нет.");
             return;
         }
-        System.out.println("\n=== Список задач ===");
+        System.out.println("\n"+"=".repeat(19)+"Список задач"+"=".repeat(19));
         for(int i=0;i< tasks.size();i++){
             System.out.println((i + 1)+". "+tasks.get(i));
         }
+        System.out.println("=".repeat(50));
     }
-
     private void addTask(){
         try{
-            boolean res = false;
             String title = "";
-            long id = Calendar.getInstance().getTimeInMillis(); 
+            String id = UUID.randomUUID().toString(); 
             int priority = 0;
             boolean killedTasks = false;
             LocalDate date = null;
             
 
-            while(res != true){
+            while(true) {
                 System.out.println("Введите название задачи: ");
-                title= scanner.nextLine().trim();
-                if(title.isEmpty()){
-                    System.out.println("Название не может быть пустым!");
-                }else{
-                    res = true;
-                }
+                title = scanner.nextLine().trim();
+                if(!title.isEmpty()) break;
+                System.out.println("Название не может быть пустым!");
             }
 
             System.out.println("Введите описание задачи: ");
             String descr = scanner.nextLine().trim();
-            if(descr.isEmpty()){
-                descr = "Без описания";
-            }
-            res = false;
-            while(res != true){
+            if(descr.isEmpty())descr = "Без описания";
+            
+            System.out.println("Введите предмет: ");
+            String subject = scanner.nextLine().trim();
+            if(subject.isEmpty())subject="Без предмета";
+
+            while(priority<1 || priority>3){
                 System.out.println("Введите приоритет задачи(низкий - 1, средний - 2, высокий - 3): ");
-                priority = scanner.nextInt();
-                if ((priority!=1 && priority!=2 && priority!=3)){
-                    System.out.println("Приоритет должен быть по шаблону!(низкий - 1, средний - 2, высокий - 3)");
-                }else{
-                    res = true;
+                try {
+                    priority = Integer.parseInt(scanner.nextLine().trim());
+                } catch (NumberFormatException e) {
+                    System.out.println("Введите число!");
                 }
             }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            res = false;
-            
-            
-            while(res != true){
+
+            while(date==null){
                 try {
-                    LocalDate t;
-                    System.out.print("Введите дату (ГГГГ-ММ-ДД): ");
-                    String input = reader.readLine().trim();
-                    if (!input.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                        System.out.println("❌ Неверный формат! Должно быть: ГГГГ-ММ-ДД");
-                        System.out.println("   Пример: 2025-12-25");
-                        continue;
-                    }
-                    t = LocalDate.parse(input);
-                    if(t.isBefore(LocalDate.now())) {
-                        System.out.println("Введите будующую дату!");
-                    }else{
-                        res = true;
-                        date = t;
-                    }
+                    System.out.printf("Введите дату (от %s): ",LocalDate.now());
+                    String input = scanner.nextLine().trim();
+                    if (!input.matches("\\d{4}-\\d{2}-\\d{2}"))continue;
+                    
+                    LocalDate enteredDate = LocalDate.parse(input);
+                    if(enteredDate.isBefore(LocalDate.now()))continue;
+                    date=enteredDate;
+                    
                 }catch (java.time.format.DateTimeParseException e){
-                    System.out.println("❌ Неверный формат даты! Используйте ГГГГ-ММ-ДД");
+                    System.out.println("Неверный формат даты! Используйте ГГГГ-ММ-ДД");
                 }catch (java.time.DateTimeException e){
-                    System.out.println("❌ Несуществующая дата! Проверьте день и месяц");
+                    System.out.println("Несуществующая дата! Проверьте день и месяц");
                 }
             } 
                 
-            scanner.nextLine();
-            taskService.addTask(new Task(title, date, id, descr, killedTasks, priority));
+            taskService.addTask(new Task(title, date, id, descr,subject, killedTasks, priority));
             System.out.println("Задача добавлена.");
-        }catch(IOException e){
-            System.out.println("Ошибка ввода");
+        }catch(Exception e){
+            System.out.println("Ошибка ввода"+e.getMessage());
         }
     }
-
     private void removeTask(){
         List<Task> tasks= taskService.getTasks();
         if(tasks.isEmpty()){
@@ -150,6 +128,30 @@ public class TaskMenu{
                 System.out.println("Неверный номер!");
             }
         }catch (NumberFormatException e){
+            System.out.println("Введите число!");
+        }
+    }
+    private void changeStatus(){
+        List<Task> tasks = taskService.getTasks();
+        if(tasks.isEmpty()){
+            System.out.println("Задач нет.");
+            return;
+        }
+        
+        viewTasks();
+        System.out.println("Введите номер задачи для изменения статуса: ");
+        
+        try{
+            int index = Integer.parseInt(scanner.nextLine().trim()) - 1;
+            if(index >= 0 && index < tasks.size()){
+                Task task = tasks.get(index);
+                
+                task.setKilledTask(!task.isKilledTask());
+                System.out.println("Статус изменён!");
+            } else{
+                System.out.println("Неверный номер!");
+            }
+        } catch(NumberFormatException e){
             System.out.println("Введите число!");
         }
     }
