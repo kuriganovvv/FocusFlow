@@ -4,7 +4,8 @@ package model;
 import jakarta.persistence.*;
 
 // сообщаем Соне, что этот класс таблица с именем.
-@Entity  
+
+@Entity(name = "ScheduleEntity")
 @Table(name = "schedule_items")
 
 public class ScheduleEntity{

@@ -2,6 +2,7 @@ package repository;
 
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.ArrayList;
 
 import model.ScheduleEntity;
 
@@ -19,7 +20,7 @@ public class ScheduleRepository {
             em.persist(entity); // Лариса получила деньги
             em.getTransaction().commit(); // сделка закончилась
         } finally{
-            em.close();// Долина вернет квартиру при любом исходе 
+            em.close();// Долина вернет квартиру себе при любом исходе 
         }
     }
     
@@ -33,6 +34,34 @@ public class ScheduleRepository {
             ).getResultList(); // вернуть List<обьект>
         } finally{
             em.close();// исход не важен, закрыть мы должны
+        }
+    }
+    public List<ScheduleEntity> findByDay(String day) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<ScheduleEntity> query = em.createQuery(
+                "SELECT s FROM ScheduleEntity s WHERE s.day = :day ORDER BY s.time", 
+                ScheduleEntity.class
+            );
+            query.setParameter("day", day);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public void deleteById(Long id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            ScheduleEntity entity = em.find(ScheduleEntity.class, id);
+            if (entity != null) {
+                em.remove(entity);
+            }
+            em.getTransaction().commit();
+        } finally {
+            em.close();
         }
     }
     /* Звезды кончились, но цирк открыт */

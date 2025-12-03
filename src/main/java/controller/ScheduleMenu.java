@@ -63,7 +63,7 @@ public class ScheduleMenu{
                 timeIndex = Integer.parseInt(scanner.nextLine())-1;
             }
 
-            System.out.print("Введите предмет: ");
+            System.out.println("Введите предмет: ");
             String subject=scanner.nextLine().trim();
             while(subject.length() > 15){
                 System.out.println("Слишком длинное название!");
