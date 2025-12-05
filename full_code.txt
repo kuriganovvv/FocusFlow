@@ -1,0 +1,706 @@
+// ===== ./src/main/java/controller/PomodoroMenu.java =====
+package controller;
+
+import java.util.List;
+import java.util.Scanner;
+
+import model.Task;
+import service.PomodoroService;
+import service.TaskService;
+
+public class PomodoroMenu {
+    private final PomodoroService pomodoroService;
+    private final TaskService taskService;
+    private Scanner scanner;
+
+    public PomodoroMenu(PomodoroService pomodoroService,TaskService taskService,Scanner scanner){
+        this.pomodoroService= pomodoroService;
+        this.taskService= taskService;
+        this.scanner= scanner;
+    }
+
+    public void menu(){
+        while (true){
+            System.out.println("\n=== Меню Pomodoro ===");
+            System.out.println("1. Начать сессию по задаче");
+            System.out.println("2. Просмотреть историю");
+            System.out.println("0. Назад");
+            System.out.print("Выбор: ");
+            String choice = scanner.nextLine().trim();
+
+            switch(choice){
+                case"1"-> startSession();
+                case"2"-> pomodoroService.viewHistory();
+                case"0"->{
+                    return;
+                }
+                default-> System.out.println("Неверный выбор.");
+            }
+        }
+    }
+
+    private void startSession(){
+        List<Task> tasks= taskService.getTasks();
+        if(tasks.isEmpty()){
+            System.out.println("Нет задач для выполнения!");
+            return;
+        }
+
+        System.out.println("Выберите задачу для выполнения:");
+        for (int i=0;i<tasks.size();i++){
+            System.out.println((i+1)+". "+tasks.get(i).getTitle());
+        }
+
+        System.out.print("Номер задачи: ");
+        try{
+            int index= Integer.parseInt(scanner.nextLine().trim())-1;
+            if (index< 0|| index>= tasks.size()){
+                System.out.println("Неверный номер!");
+                return;
+            }
+
+            Task task= tasks.get(index);
+            startPomodoro(task);
+            scanner= new Scanner(System.in);
+            
+        }catch(NumberFormatException e){
+            System.out.println("Введите число!");
+        }
+    }
+
+    private void startPomodoro(Task task){
+        int totalMinutes= 25;
+        int totalSeconds= totalMinutes * 60;
+        int elapsed= 0;
+        boolean paused= false;
+        boolean stopped= false;
+
+        System.out.println("⏳ Начинаем задачу: "+task.getTitle());
+        System.out.println("Нажмите 'p' — пауза, 'r' — продолжить, 's' — завершить.");
+
+        while (elapsed< totalSeconds && !stopped){
+            if (!paused){
+                try{
+                    Thread.sleep(1000);
+                    elapsed++;
+                    int remaining= totalSeconds-elapsed;
+                    int minutes= remaining/60;
+                    int seconds= remaining%60;
+                    System.out.printf("\rОсталось: %02d:%02d ",minutes,seconds);
+                }catch (InterruptedException e){
+                    break;
+                }
+            }
+
+            try{
+                if(System.in.available()> 0){
+                    char command= (char) System.in.read();
+                    if(command== 'p'){
+                        paused = true;
+                        System.out.println("\nПауза. Нажмите 'r' чтобы продолжить.");
+                    }else if (command== 'r'){
+                        paused= false;
+                        System.out.println("Продолжаем!");
+                    }else if (command== 's'){
+                        System.out.println("\nСессия завершена.");
+                        stopped = true;
+                    }
+                }
+            }catch(Exception e){
+
+            }
+        }
+
+        if(!stopped){
+            System.out.println("\nСессия завершена!");
+        }
+        
+        pomodoroService.saveSession(task.getTitle(),elapsed/60,!stopped);
+    }
+}
+// ===== ./src/main/java/controller/ScheduleMenu.java =====
+package controller;
+
+import java.util.Scanner;
+
+import service.ScheduleService;
+
+public class ScheduleMenu{
+    private ScheduleService service;
+    private Scanner scanner;
+    private final String[] DAYS={"Пн","Вт","Ср","Чт","Пт","Сб"};
+    private final String[] TIMES={"08:00","09:50","11:40","13:45","15:35","17:25"};
+
+    public ScheduleMenu(ScheduleService service,Scanner scanner){
+        this.service=service;
+        this.scanner=scanner;
+    }
+
+    public void menu(){
+        while(true){
+            System.out.println("\n=== РАСПИСАНИЕ ===");
+            System.out.println("1. Добавить пару");
+            System.out.println("2. Удалить пару");
+            System.out.println("3. Показать расписание");
+            System.out.println("0. Выход");
+            System.out.print("Выберите: ");
+
+            String choice=scanner.nextLine();
+            
+            switch(choice){
+                case "1" -> addPair();
+                case "2" -> removePair();
+                case "3" -> showSchedule();
+                case "0" -> {
+                    return;
+                }
+                default -> System.out.println("Неверный выбор!");
+            }
+        }
+    }
+
+    private void addPair(){
+        
+        try{
+            System.out.println("Выберите день:");
+            for(int i=0;i<DAYS.length;i++){
+                System.out.println((i+1)+". "+DAYS[i]);
+            }
+    
+            int dayIndex = Integer.parseInt(scanner.nextLine())-1;
+            while(dayIndex >= DAYS.length || dayIndex < 0){
+                System.out.println("Ошибка ввода, повторите: ");
+                dayIndex = Integer.parseInt(scanner.nextLine())-1;
+            }
+
+            System.out.println("Выберите время:");
+            for(int i=0;i<TIMES.length;i++){
+                System.out.println((i+1)+". "+TIMES[i]);
+            }
+            
+            int timeIndex=Integer.parseInt(scanner.nextLine())-1;
+            while(timeIndex >= TIMES.length || timeIndex < 0){
+                System.out.println("Ошибка ввода, повторите: ");
+                timeIndex = Integer.parseInt(scanner.nextLine())-1;
+            }
+
+            System.out.print("Введите предмет: ");
+            String subject=scanner.nextLine().trim();
+            while(subject.length() > 15){
+                System.out.println("Слишком длинное название!");
+                subject = scanner.nextLine().trim();
+            }
+            
+            String day=DAYS[dayIndex];
+            String time=TIMES[timeIndex];
+            service.add(day,time,subject);
+            System.out.println("Пара добавлена!");
+        }catch(Exception e){
+            System.out.println("Ошибка ввода!");
+        }
+    }
+
+    private void removePair(){
+        try{
+            System.out.println("Выберите день:");
+            for(int i=0;i<DAYS.length;i++){
+                System.out.println((i+1)+". "+DAYS[i]);
+            }
+            int dayIndex=Integer.parseInt(scanner.nextLine())-1;
+            String day=DAYS[dayIndex];
+            
+            var daySchedule=service.getSchedule().get(day);
+            if(daySchedule.isEmpty()){
+                System.out.println("В этот день нет пар!");
+                return;
+            }
+            
+            System.out.println("Пары в "+day+":");
+            for(int i=0;i<daySchedule.size();i++){
+                var item=daySchedule.get(i);
+                System.out.println((i+1)+". "+item.getTime()+" - "+item.getSubject());
+            }
+            
+            System.out.print("Какую пару удалить? (номер): ");
+            int pairIndex=Integer.parseInt(scanner.nextLine())-1;
+            if (pairIndex<0||pairIndex>=daySchedule.size()){
+                System.out.println("Такой пары не существует!");
+                return;
+            }
+            service.remove(day,pairIndex);
+            System.out.println("Пара удалена!");
+        }catch(Exception e){
+            System.out.println("Ошибка ввода!");
+        }
+    }
+
+    private void showSchedule(){
+        var schedule=service.getSchedule();
+        
+        System.out.print("\nВремя   ");
+        for(String day:DAYS){
+            System.out.printf("%-15s",day);
+        }
+        System.out.println();
+        
+        for(String time:TIMES){
+            System.out.printf("%-8s",time);
+            
+            for(String day:DAYS){
+                var daySchedule=schedule.get(day);
+                String subject="";
+                
+                for(var item:daySchedule){
+                    if(item.getTime().equals(time)){
+                        subject=item.getSubject();
+                        break;
+                    }
+                }
+                
+                System.out.printf("%-15s",subject);
+            }
+            System.out.println();
+        }
+    }
+}
+// ===== ./src/main/java/controller/TaskMenu.java =====
+package controller;
+
+import java.time.LocalDate;
+import java.util.UUID;
+import java.util.List;
+import java.util.Scanner;
+
+import model.Task;
+import service.TaskService;
+
+public class TaskMenu{
+    private final TaskService taskService;
+    private final Scanner scanner;
+
+    public TaskMenu(TaskService taskService,Scanner scanner){
+        this.taskService =taskService;
+        this.scanner= scanner;
+    }
+
+    public void menu(){
+        while(true){
+            System.out.println("\n=== Меню задач ===");
+            System.out.println("1. Просмотреть задачи");
+            System.out.println("2. Добавить задачу");
+            System.out.println("3. Удалить задачу");
+            System.out.println("4. Изменить статус задачи");
+            System.out.println("0. Назад");
+            System.out.print("Выбор: ");
+            String choice= scanner.nextLine().trim();
+
+            switch(choice){
+                case "1" -> viewTasks();
+                case "2" -> addTask();
+                case "3" ->removeTask();
+                case "4" ->changeStatus();
+                case "0"->{
+                    return;
+                }
+                default ->System.out.println("Неверный выбор");
+            }
+        }
+    }
+
+    private void viewTasks(){
+        List<Task> tasks= taskService.getTasks();
+        if(tasks.isEmpty()){
+            System.out.println("Задач нет.");
+            return;
+        }
+        System.out.println("\n"+"=".repeat(19)+"Список задач"+"=".repeat(19));
+        for(int i=0;i< tasks.size();i++){
+            System.out.println((i + 1)+". "+tasks.get(i));
+        }
+        System.out.println("=".repeat(50));
+    }
+    private void addTask(){
+        try{
+            String title = "";
+            String id = UUID.randomUUID().toString(); 
+            int priority = 0;
+            boolean killedTasks = false;
+            LocalDate date = null;
+            
+
+            while(true) {
+                System.out.println("Введите название задачи: ");
+                title = scanner.nextLine().trim();
+                if(!title.isEmpty()) break;
+                System.out.println("Название не может быть пустым!");
+            }
+
+            System.out.println("Введите описание задачи: ");
+            String descr = scanner.nextLine().trim();
+            if(descr.isEmpty())descr = "Без описания";
+            
+            System.out.println("Введите предмет: ");
+            String subject = scanner.nextLine().trim();
+            if(subject.isEmpty())subject="Без предмета";
+
+            while(priority<1 || priority>3){
+                System.out.println("Введите приоритет задачи(низкий - 1, средний - 2, высокий - 3): ");
+                try {
+                    priority = Integer.parseInt(scanner.nextLine().trim());
+                } catch (NumberFormatException e) {
+                    System.out.println("Введите число!");
+                }
+            }
+
+            while(date==null){
+                try {
+                    System.out.printf("Введите дату (от %s): ",LocalDate.now());
+                    String input = scanner.nextLine().trim();
+                    if (!input.matches("\\d{4}-\\d{2}-\\d{2}"))continue;
+                    
+                    LocalDate enteredDate = LocalDate.parse(input);
+                    if(enteredDate.isBefore(LocalDate.now()))continue;
+                    date=enteredDate;
+                    
+                }catch (java.time.format.DateTimeParseException e){
+                    System.out.println("Неверный формат даты! Используйте ГГГГ-ММ-ДД");
+                }catch (java.time.DateTimeException e){
+                    System.out.println("Несуществующая дата! Проверьте день и месяц");
+                }
+            } 
+                
+            taskService.addTask(new Task(title, date, id, descr,subject, killedTasks, priority));
+            System.out.println("Задача добавлена.");
+        }catch(Exception e){
+            System.out.println("Ошибка ввода"+e.getMessage());
+        }
+    }
+    private void removeTask(){
+        List<Task> tasks= taskService.getTasks();
+        if(tasks.isEmpty()){
+            System.out.println("Список пуст.");
+            return;
+        }
+
+        viewTasks();
+        System.out.print("Введите номер задачи для удаления: ");
+        
+        try{
+            int index= Integer.parseInt(scanner.nextLine().trim())-1;
+            if(index>= 0 && index<tasks.size()){
+                taskService.removeTask(index);
+                System.out.println("Задача удалена.");
+            }else{
+                System.out.println("Неверный номер!");
+            }
+        }catch (NumberFormatException e){
+            System.out.println("Введите число!");
+        }
+    }
+    private void changeStatus(){
+        List<Task> tasks = taskService.getTasks();
+        if(tasks.isEmpty()){
+            System.out.println("Задач нет.");
+            return;
+        }
+        
+        viewTasks();
+        System.out.println("Введите номер задачи для изменения статуса: ");
+        
+        try{
+            int index = Integer.parseInt(scanner.nextLine().trim()) - 1;
+            if(index >= 0 && index < tasks.size()){
+                Task task = tasks.get(index);
+                
+                task.setKilledTask(!task.isKilledTask());
+                System.out.println("Статус изменён!");
+            } else{
+                System.out.println("Неверный номер!");
+            }
+        } catch(NumberFormatException e){
+            System.out.println("Введите число!");
+        }
+    }
+}
+// ===== ./src/main/java/Main.java =====
+
+import java.util.Scanner;
+
+import service.ScheduleService;
+import service.TaskService;
+import service.PomodoroService;
+import controller.ScheduleMenu;
+import controller.TaskMenu;
+import controller.PomodoroMenu;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner scanner=new Scanner(System.in);
+
+        ScheduleService scheduleService=new ScheduleService();
+        ScheduleMenu scheduleMenu=new ScheduleMenu(scheduleService,scanner);
+
+        TaskService taskService = new TaskService();
+        TaskMenu taskMenu =new TaskMenu(taskService, scanner);
+
+        PomodoroService pomodoroService = new PomodoroService();
+        PomodoroMenu pomodoroMenu = new PomodoroMenu(pomodoroService, taskService, scanner);
+        
+        while(true){
+            System.out.println("\n=== Главное меню ===");
+            System.out.println("1. Расписание");
+            System.out.println("2. Задачи");
+            System.out.println("3. Pomodoro");
+            System.out.println("0. Выход");
+            System.out.print("Выбор: ");
+            String choice=scanner.nextLine().trim();
+
+            switch(choice){
+                case "1" -> scheduleMenu.menu();
+                case "2" -> taskMenu.menu();
+                case "3" -> pomodoroMenu.menu();
+                case "0" -> {
+                    System.out.println("Выход...");
+                    scanner.close();
+                    return;
+                }
+                
+                default -> System.out.println("Неверный выбор, попробуйте снова.");
+            }
+        }
+    }
+}
+// ===== ./src/main/java/model/Pomodoro.java =====
+package model;
+
+public class Pomodoro{
+    private String taskName;
+    private int minutes;
+    private boolean completed;
+
+    public Pomodoro(String taskName, int minutes, boolean completed){
+        this.taskName= taskName;
+        this.minutes=minutes;
+        this.completed=completed;
+    }
+
+    @Override
+    public String toString() {
+        return taskName + " | " + minutes + " мин | " + (completed ? "Завершено" : "Прервано");
+    }
+}
+// ===== ./src/main/java/model/Schedule.java =====
+package model;
+
+public class Schedule implements Comparable<Schedule>{
+    private final String subject;
+    private final String time;
+
+    public Schedule(String subject, String time){
+        this.subject = subject;
+        this.time = time;
+    }
+
+    public String getSubject(){return subject;}
+    public String getTime(){return time;}
+
+    @Override
+    public int compareTo(Schedule other){
+        return this.time.compareTo(other.time);
+    }
+}
+// ===== ./src/main/java/model/Task.java =====
+package model;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
+
+public class Task{
+    private final String title;
+    private final LocalDate date;
+    private final String id;
+    private final String descr;
+    private final String subject;
+    private boolean killedTask;
+    private final int priority;
+
+    private static final String RESET = "\u001B[0m";
+    private static final String RED = "\u001B[31m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String YELLOW = "\u001B[33m";
+    private static final String GRAY = "\u001B[90m";
+
+    public Task(String title, LocalDate date, String id, String descr, String subject, boolean killedTask, int priority){
+        this.title = title;
+        this.date = date;
+        this.id = id !=null? id:UUID.randomUUID().toString();
+        this.descr = descr != null ? descr : "Без описания";
+        this.subject = subject != null ? subject : "Без предмета";
+        this.killedTask = killedTask;
+        this.priority = priority;
+    }
+    
+    public String getTitle(){return title;}
+    public LocalDate getDate(){return date;}
+    public String getId(){ return id; }
+    public String getSubject(){return subject;}
+    public boolean isKilledTask(){return killedTask;}
+    public void setKilledTask(boolean killedTask){this.killedTask = killedTask;}
+    public int getPriority(){return priority;}
+
+    public long getDaysUntilDeadline(){
+        return ChronoUnit.DAYS.between(LocalDate.now(), date);
+    }
+    
+    /*ЦветГалочка + Название + Пробелы + ЦветПредмет + ЦветДедлайн +
+    *ЦветОписание */
+    @Override
+    public String toString() {
+        // Пустая строка
+        StringBuilder sb = new StringBuilder();
+        // + ЦветГалочка + Название задачи 
+        String checkmarkColor = switch(priority) {
+            case 1 -> GREEN;   
+            case 2 -> YELLOW;  
+            case 3 -> RED;    
+            default -> RESET;
+        };
+        sb.append(checkmarkColor)
+          .append(killedTask ? "[✓]" : "[ ]")
+          .append(RESET)
+          .append(" ")
+          .append(title);
+        
+        // + Пробелы
+        int currentLength = sb.length();
+        int targetLength = 35;
+        if(currentLength < targetLength)sb.append(" ".repeat(targetLength - currentLength));
+
+        // + ЦветПредмет
+        if(!subject.equals("Без предмета"))
+           sb.append(GRAY).append("[").append(subject).append("]").append(RESET).append("  ");
+
+        // + ЦветДедлайн
+        long days = getDaysUntilDeadline();
+        String daysColor = days <= 1 ? RED : (days <= 3 ? YELLOW : GREEN);
+        String daysText = days < 0 ? "просрочено" : 
+                          days == 0 ? "сегодня" : 
+                          days == 1 ? "1 д" : 
+                          days + " д";   
+        sb.append(daysColor).append("[").append(daysText).append("]").append(RESET);
+        
+        /*ЦветОписание*/
+        if(!descr.equals("Без описания"))
+            sb.append("\n        ").append(GRAY).append(descr).append(RESET);
+        
+        return sb.toString();
+    }
+}
+// ===== ./src/main/java/service/PomodoroService.java =====
+package service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import model.Pomodoro;
+
+public class PomodoroService{
+    private List<Pomodoro> sessions;
+
+    public PomodoroService(){
+        sessions= new ArrayList<>();
+    }
+
+    public void saveSession(String taskName,int minutes,boolean completed){
+        sessions.add(new Pomodoro(taskName,minutes,completed));
+    }
+
+    public void viewHistory(){
+        System.out.println("=== История Pomodoro-сессий ===");
+        if(sessions.isEmpty()){
+            System.out.println("История пуста.");
+            return;
+        }
+
+        for(int i=0;i<sessions.size();i++){
+            System.out.println((i+1)+". "+sessions.get(i));
+        }
+    }
+}
+// ===== ./src/main/java/service/ScheduleService.java =====
+package service;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Collections;
+
+import model.Schedule;
+
+public class ScheduleService{
+    private final Map<String, List<Schedule>>schedule=new LinkedHashMap<>();
+
+    public ScheduleService(){
+        String[]days={"Пн","Вт","Ср","Чт","Пт","Сб"};
+        for(String day:days){
+            schedule.put(day,new ArrayList<>());
+        }
+    }
+
+    public void add(String day,String time,String subject) {
+        List<Schedule>daySchedule=schedule.get(day);
+        if(daySchedule!=null){
+            daySchedule.add(new Schedule(subject,time));
+            Collections.sort(daySchedule);
+        }
+    }
+
+    public void remove(String day,int index){
+        List<Schedule>daySchedule=schedule.get(day);
+        if(daySchedule!=null&&index<daySchedule.size()){
+            daySchedule.remove(index);
+        }
+    }
+
+    public Map<String,List<Schedule>>getSchedule(){
+        return schedule;
+    }
+}
+// ===== ./src/main/java/service/TaskService.java =====
+package service;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+import model.Task;
+
+public class TaskService{
+    private final List<Task> tasks;
+
+    public TaskService(){
+        tasks=new ArrayList<>();
+    }
+    public void addTask(Task task){
+        tasks.add(task);
+        tasks.sort(Comparator.comparingLong(Task::getDaysUntilDeadline));
+    }
+    public void removeTask(int index){
+        if (index>=0 &&index<tasks.size()) tasks.remove(index);
+    }
+
+    public List<Task> getTasks(){
+        return tasks;
+    }
+
+    public List<Task> getTasksByDate(LocalDate date){
+        List<Task> result=new ArrayList<>();
+        for (Task t : tasks){
+            if(t.getDate().equals(date)) result.add(t);
+        }
+        return result;
+    }
+}
