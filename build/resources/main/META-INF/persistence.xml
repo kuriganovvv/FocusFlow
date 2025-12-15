@@ -6,9 +6,10 @@
              version="3.0">
     <!-- Этот файл подключается к SQLITE(schedule.db)-->
 <!-- Автоматически создает/обновляет таблицу при запуске-->
-    <persistence-unit name="schedule_pu">
-        <description>SQLite Database for Schedule</description>
+    <persistence-unit name="focusflow_pu">
+        <description>SQLite Database for FocusFlow</description>
         <class>model.ScheduleEntity</class>       
+        <class>model.TaskEntity</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlite:schedule.db"/>

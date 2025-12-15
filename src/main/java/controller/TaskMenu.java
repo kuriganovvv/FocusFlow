@@ -87,7 +87,7 @@ public class TaskMenu{
             }
 
             while(date==null){
-                try {
+                try{
                     System.out.printf("Введите дату (от %s): ",LocalDate.now());
                     String input = scanner.nextLine().trim();
                     if (!input.matches("\\d{4}-\\d{2}-\\d{2}"))continue;
@@ -103,7 +103,7 @@ public class TaskMenu{
                 }
             } 
                 
-            taskService.addTask(new Task(title, date, id, descr,subject, killedTasks, priority));
+            taskService.addTask(title, date, id, descr,subject, killedTasks, priority);
             System.out.println("Задача добавлена.");
         }catch(Exception e){
             System.out.println("Ошибка ввода"+e.getMessage());

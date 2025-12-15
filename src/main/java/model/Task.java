@@ -36,6 +36,7 @@ public class Task{
     public boolean isKilledTask(){return killedTask;}
     public void setKilledTask(boolean killedTask){this.killedTask = killedTask;}
     public int getPriority(){return priority;}
+    public String getDescr(){return descr;}
 
     public long getDaysUntilDeadline(){
         return ChronoUnit.DAYS.between(LocalDate.now(), date);
