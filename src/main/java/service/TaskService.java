@@ -25,49 +25,63 @@ public class TaskService{
     }
     private void loadFromDatabase(){
         try{
+            tasks.clear();
+
             List<TaskEntity> entities = repository.findAll();
-            for(i = 1; i <= tasks.size(); i++){
-                tasks.get(i).clear();
-            }
+            
             for(TaskEntity entity: entities){
                 String title = entity.getTitle();
                 LocalDate date = entity.getDate();
                 String id = entity.getId();
                 String descr = entity.getDescr();
                 String subject = entity.getSubject();
-                boolean iskilledTask = entity.isKilledTask();
+                boolean isKilledTask = entity.isKilledTask();
                 int priority = entity.getPriority();
-                i++;
-                String checkmarkColor = switch(priority) {
-                    case 1 -> GREEN;   
-                    case 2 -> YELLOW;  
-                    case 3 -> RED;    
-                    default -> RESET;
-                };
-                tasks.get(i).add(new Task(title, date, id, descr, subject, iskilledTask, priority));
-                }
+                
+                Task task = new Task(title,date,id,descr,subject,isKilledTask,priority);
+                tasks.add(task);
+            }
+            tasks.sort(Comparator.comparingLong(Task::getDaysUntilDeadline));
+            System.out.println("ЗАГРУЖЕНО "+tasks.size()+"задач из БД");
         }
         catch(Exception e){
-            System.out.println("Ошибка загрузки БД"+e.getMessage());
+            System.out.println("Ошибка загрузки БД:"+e.getMessage());
             e.printStackTrace();
         }
     }
-    public void addTask(String title, LocalDate date, String id, String descr, String subject, boolean killedTasks, int priority){
-        TaskEntity entity = new TaskEntity(title, date, id, descr, subject, killedTasks, priority);
+    public void addTask(String title, LocalDate date, String id, String descr,String subject, boolean killedTasks, int priority){
+        Task task = new Task(title, date, id, descr, subject, killedTasks, priority);
+
+        TaskEntity entity = new TaskEntity(
+            task.getId(),
+            task.getTitle(),
+            task.getDate(),
+            task.getDescr(),
+            task.getSubject(),
+            task.isKilledTask(),
+            task.getPriority()
+        );
+
         repository.save(entity);
-        tasks.add(new Task(title, date, id, descr, subject, killedTasks, priority));
+        tasks.add(task);
         tasks.sort(Comparator.comparingLong(Task::getDaysUntilDeadline));
     }
     public void removeTask(int index){
-        Task task = tasks.get(i);
+    if(index >= 0 && index < tasks.size()){
+        Task task = tasks.get(index); 
         try{
-            TaskEntity entity = repository.deleteById(task.getId());
-            if (index>=0 &&index<tasks.size()) tasks.remove(index);
-        }
-        catch(Exception e) {
+            repository.deleteById(task.getId());
+
+            tasks.remove(index);
+            
+            System.out.println("Задача удалена из БД и памяти");
+        } catch(Exception e){
             System.err.println("Ошибка удаления: " + e.getMessage());
         }
+    } else {
+        System.out.println("Неверный индекс задачи: " + index);
     }
+}
 
     public List<Task> getTasks(){
         return tasks;
@@ -79,5 +93,11 @@ public class TaskService{
             if(t.getDate().equals(date)) result.add(t);
         }
         return result;
+    }
+    public void close() {
+        if (repository != null) {
+            repository.close();
+            System.out.println("Соединение с задачами БД закрыто");
+        }
     }
 }

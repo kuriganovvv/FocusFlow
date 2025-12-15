@@ -10,7 +10,7 @@ public class ScheduleRepository {
     private EntityManagerFactory emf;//фабрика звезд
     
     public ScheduleRepository(){// Персистенс.хмл
-        emf = Persistence.createEntityManagerFactory("schedule_pu");
+        emf = Persistence.createEntityManagerFactory("focusflow_pu");
     }
     
     public void save(ScheduleEntity entity){

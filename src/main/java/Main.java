@@ -12,15 +12,16 @@ public class Main{
     public static void main(String[] args){
         Scanner scanner=new Scanner(System.in);
         ScheduleService scheduleService = null;// вынесем чтобы finnaly мог очистить иначе внутри try он не увидит
-        
+        TaskService taskService =null;
+        PomodoroService pomodoroService=null;
         try{
             scheduleService=new ScheduleService();
             ScheduleMenu scheduleMenu=new ScheduleMenu(scheduleService,scanner);
 
-            TaskService taskService = new TaskService();
+             taskService = new TaskService();
             TaskMenu taskMenu =new TaskMenu(taskService, scanner);
 
-            PomodoroService pomodoroService = new PomodoroService();
+            pomodoroService = new PomodoroService();
             PomodoroMenu pomodoroMenu = new PomodoroMenu(pomodoroService, taskService, scanner);
             
             while(true){
@@ -45,11 +46,14 @@ public class Main{
                 }
             }
         }finally{
-            if (scanner != null){
-                scanner.close();
+            if (taskService!=null){
+                taskService.close();
             }
             if (scheduleService != null){
-                scheduleService.cleanup();
+                scheduleService.close();
+            }
+            if (scanner != null){
+                scanner.close();
             }
             System.out.println("Приложение завершено.");
         }

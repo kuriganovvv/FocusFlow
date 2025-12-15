@@ -11,7 +11,7 @@ public class TaskRepository {
     private EntityManagerFactory emf;
     
     public TaskRepository(){
-        emf = Persistence.createEntityManagerFactory("task_pu");
+        emf = Persistence.createEntityManagerFactory("focusflow_pu");
     }
     
     public void save(TaskEntity entity){

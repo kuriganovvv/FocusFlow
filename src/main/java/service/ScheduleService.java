@@ -103,10 +103,10 @@ public class ScheduleService{
     public Map<String,List<Schedule>>getSchedule(){
         return schedule;
     }
-    public void cleanup() {
+    public void close() {
         if (repository != null) {
             repository.close();
-            System.out.println("Соединение с БД закрыто");
+            System.out.println("Соединение с расписанием БД закрыто");
         }
     }
 }
