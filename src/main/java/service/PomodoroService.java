@@ -4,12 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Pomodoro;
+import model.PomodoroEntity;
+import repository.PomodoroRepository;
 
 public class PomodoroService{
-    private List<Pomodoro> sessions;
-
+    private List<Pomodoro> sessions=new ArrayList<>();
+    private final PomodoroRepository repository;
     public PomodoroService(){
+        this.repository = new PomodoroRepository();
         sessions= new ArrayList<>();
+    }
+
+    private void loadFromDatabase(){
+        try{
+            sessions.clear();
+
+            List<PomodoroEntity> entities = repository.findAll();
+            
+            for(PomodoroEntity entity: entities){
+                String taskName = entity.getTaskName();
+                int minutes = entity.getMinutes();
+                boolean completed = entity.getCompleted();
+                
+            }
+        }
+        catch(Exception e){
+            System.out.println("Ошибка загрузки БД:"+e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void saveSession(String taskName,int minutes,boolean completed){
