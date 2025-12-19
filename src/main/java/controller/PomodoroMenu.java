@@ -115,5 +115,6 @@ public class PomodoroMenu {
         }
         
         pomodoroService.saveSession(task.getTitle(),elapsed/60,!stopped);
+        scanner.nextLine();
     }
 }
