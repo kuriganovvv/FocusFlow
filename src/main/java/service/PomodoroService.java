@@ -10,9 +10,10 @@ import repository.PomodoroRepository;
 public class PomodoroService{
     private List<Pomodoro> sessions=new ArrayList<>();
     private final PomodoroRepository repository;
-    public PomodoroService(){
+    public PomodoroService() {
+        this.sessions = new ArrayList<>();
         this.repository = new PomodoroRepository();
-        sessions= new ArrayList<>();
+        loadFromDatabase();
     }
 
     private void loadFromDatabase(){
@@ -24,19 +25,28 @@ public class PomodoroService{
             for(PomodoroEntity entity: entities){
                 String taskName = entity.getTaskName();
                 int minutes = entity.getMinutes();
-                boolean completed = entity.getCompleted();
-                
+                boolean completed= entity.isCompleted();
+                Pomodoro pomodoro= new Pomodoro(taskName, minutes, completed);
+                sessions.add(pomodoro);
             }
-        }
-        catch(Exception e){
+            
+            System.out.println("Загружено " +sessions.size()+ " Pomodoro сессий из БД");
+            
+        } catch (Exception e) {
             System.out.println("Ошибка загрузки БД:"+e.getMessage());
             e.printStackTrace();
         }
     }
 
-    public void saveSession(String taskName,int minutes,boolean completed){
-        sessions.add(new Pomodoro(taskName,minutes,completed));
-    }
+    public void saveSession(String taskName, int minutes, boolean completed){
+        // сохранение в бд(сначала надо бины создать, тоесть обьекты для маппинга в бд)
+         PomodoroEntity entity = new PomodoroEntity(taskName, minutes, completed);
+         repository.save(entity);
+         // в озу сохранение
+         sessions.add(new Pomodoro(taskName, minutes, completed));
+       
+         System.out.println("Pomodoro сессия сохранена: " + taskName);
+     }
 
     public void viewHistory(){
         System.out.println("=== История Pomodoro-сессий ===");

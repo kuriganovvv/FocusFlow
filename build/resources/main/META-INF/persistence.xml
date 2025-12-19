@@ -10,6 +10,7 @@
         <description>SQLite Database for FocusFlow</description>
         <class>model.ScheduleEntity</class>       
         <class>model.TaskEntity</class>
+        <class>model.PomodoroEntity</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlite:schedule.db"/>
