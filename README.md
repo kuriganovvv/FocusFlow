@@ -1,17 +1,18 @@
 <p align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=00FF00&center=true&vCenter=true&width=800&lines=Время+=+Деньги;incompatible+types:+int+cannot+be+converted+to+LocalDate;Семь+раз+ctrl%2Bc,+один+раз+ctrl%2Bv;Ученье+-+light,+а+неученье+-+~light;+VSCode-ный+двор;Не+всё+то+золото,+что+builded;У+страха+глаза+велики,+а+у+радости+глаза+auto;Хорошо+смеётся+тот,+кто+ревьюит+код;Сделал+дело+–+коммить+смело;Слово+не+воробей,+ctrl%2Bz+не+сделаешь;Лучше+поздно,+чем+ни+кода;Путь+к+сердцу+мужчины+лежит+через+BUILD+SUCCESSFULL;Кто+не+работает,+тот+teamlead!" />
 </p>
-<img width="1140" height="619" alt="image" src="https://github.com/user-attachments/assets/111216b8-1526-46b4-9390-7c582e33d359" />
+
+<img width="1140" height="619" alt="image" src="https://github.com/user-attachments/assets/c4f7ea85-f387-45a0-a48d-858a2ba41ed8" />
 
 # Описание
 **FocusFlow** — это персональное приложение для студентов, которое помогает организовать учебный процесс, управлять задачами и временем с помощью таймера «помидорок» и интеллектуальных рекомендаций.  
 Приложение отслеживает фактическое время выполнения задач, анализирует продуктивность и предлагает оптимальное распределение учебных задач по дням недели с учётом дедлайнов и приоритетов.  
 
-<img width="1140" height="619" alt="image" src="https://github.com/user-attachments/assets/b8ebf7ad-ef48-451b-a6fe-0ce3dd2d580b" />
+<img width="1140" height="619" alt="image" src="https://github.com/user-attachments/assets/90cbf79f-36ff-4e17-b6e2-3288131bd120" />
 
 Цель проекта: Помочь студенту повысить эффективность обучения за счёт автоматизации планирования и анализа фактических затрат времени.
 
-<img width="1140" height="619" alt="image" src="https://github.com/user-attachments/assets/617422ab-3708-4845-9cb6-e26a84ab24a5" />
+<img width="1140" height="619" alt="image" src="https://github.com/user-attachments/assets/b2492f21-c255-4823-b478-28eec5a131b4" />
 
 ## Основные функции
 - **Управление учебными предметами:**
@@ -71,6 +72,7 @@
 
 
 ![Java](https://img.shields.io/badge/Java-21+-orange)![Gradle](https://img.shields.io/badge/Gradle-8.10-green)![Spring](https://img.shields.io/badge/Spring-%236DB33F.svg?logo=spring&style=flat&logoColor=white)![Ubuntu](https://img.shields.io/badge/-Ubuntu-6F52B5.svg?logo=ubuntu&style=flat)![SQLite](https://img.shields.io/badge/SQLite-%2307405e.svg?logo=sqlite&style=flat&logoColor=white)![Git](https://img.shields.io/badge/Git-%23F05033.svg?logo=git&style=flat&logoColor=white)![GitHub](https://img.shields.io/badge/Github-%23121011.svg?logo=GitHub&style=flat&logoColor=white)![VSCode](https://img.shields.io/badge/-Visual%20Studio%20Code-007ACC.svg?logo=visual-studio-code&style=flat)
+
 
 
 
