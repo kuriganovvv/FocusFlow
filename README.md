@@ -24,7 +24,7 @@
   - Создание личных задач с названием, описанием, дедлайном и приоритетом.
   - ~~Разделение задач на подзадачи.~~
   - Статус выполнения: «не выполнено», «в работе», «сделано».
-<img width="1140" height="619" alt="image" src="https://github.com/user-attachments/assets/1596ba62-b059-4a62-a2d0-cbe2d82e69fa" />
+<img width="1140" height="619" alt="image" src="https://github.com/user-attachments/assets/e656cef3-ba45-491f-bf71-d4b1f9f27721" />
 
 
 - **Таймер «помидорок»:**
@@ -65,17 +65,13 @@
 
 
 
-## Тепловая карта коммитов:
-
-[![График активности Egor-kva](https://github-readme-activity-graph.vercel.app/graph?username=Egor-kva&theme=github)](https://github.com/Egor-kva)
-[![График активности Egor-kva](https://github-readme-activity-graph.vercel.app/graph?username=kuriganovvv&theme=github)](https://github.com/kuriganovvv)
-[![График активности Egor-kva](https://github-readme-activity-graph.vercel.app/graph?username=JonnySQ1&theme=github)](https://github.com/JonnySQ1)
 
 ## Прогресс выполнения
-![Progress](https://progress-bar.xyz/60/?title=Выполнено&width=400)
+![Progress](https://progress-bar.xyz/100/?title=Выполнено&width=400)
 
 
 ![Java](https://img.shields.io/badge/Java-21+-orange)![Gradle](https://img.shields.io/badge/Gradle-8.10-green)![Spring](https://img.shields.io/badge/Spring-%236DB33F.svg?logo=spring&style=flat&logoColor=white)![Ubuntu](https://img.shields.io/badge/-Ubuntu-6F52B5.svg?logo=ubuntu&style=flat)![SQLite](https://img.shields.io/badge/SQLite-%2307405e.svg?logo=sqlite&style=flat&logoColor=white)![Git](https://img.shields.io/badge/Git-%23F05033.svg?logo=git&style=flat&logoColor=white)![GitHub](https://img.shields.io/badge/Github-%23121011.svg?logo=GitHub&style=flat&logoColor=white)![VSCode](https://img.shields.io/badge/-Visual%20Studio%20Code-007ACC.svg?logo=visual-studio-code&style=flat)
+
 
 
 
